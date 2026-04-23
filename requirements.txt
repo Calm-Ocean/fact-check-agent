@@ -1,4 +1,4 @@
-streamlit==1.32.0
-PyPDF2==3.0.1
-duckduckgo-search==5.2.1
-requests==2.31.0
+streamlit
+PyPDF2
+duckduckgo-search
+requests
