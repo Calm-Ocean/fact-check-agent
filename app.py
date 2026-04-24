@@ -11,18 +11,11 @@ st.title("🔍 The Fact-Check Agent")
 st.markdown("Upload a PDF document, and this tool will extract claims, cross-reference them with live web data, and verify their accuracy.")
 
 # --- API KEY SETUP ---
-api_key = None
-
+# The app now securely pulls the key directly from Streamlit secrets
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
 except Exception:
-    pass
-
-if not api_key:
-    st.sidebar.warning("API Key missing. Please enter your Google Gemini API Key.")
-    api_key = st.sidebar.text_input("Gemini API Key", type="password")
-
-if not api_key:
+    st.error("🚨 GEMINI_API_KEY is missing from your Streamlit secrets. Please add it to your local .streamlit/secrets.toml file or Streamlit Cloud dashboard to deploy successfully.")
     st.stop()
 
 # --- DIRECT API CALL HELPER ---
@@ -90,12 +83,14 @@ def search_web(claim):
 
 def verify_claim(claim, context):
     prompt = f"""
-    You are a Fact-Checking Agent. Evaluate the following claim based ONLY on the provided web search context.
+    You are a Fact-Checking Agent. 
     
     Claim: "{claim}"
+    Web Context: {context}
     
-    Web Context:
-    {context}
+    INSTRUCTIONS:
+    1. First, try to evaluate the claim using the provided Web Context.
+    2. FALLBACK: If the Web Context says 'returned no results' or is empty, you MUST use your own internal AI knowledge and historical training data to fact-check the claim.
     
     Classify the claim into exactly one of these categories:
     1. Verified (matches data)
