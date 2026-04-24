@@ -6,9 +6,9 @@ This tool extracts factual claims from uploaded PDFs and cross-references them a
 
 ## ✨ Features
 
-- Automated Extraction:** Reads uploaded PDFs and intelligently identifies 3 to 5 distinct, verifiable factual claims (statistics, dates, financial figures).
-- Web Cross-Referencing:** Uses DuckDuckGo to search the live web for context regarding each extracted claim.
-- Smart Verification:** Powered by **Google Gemini 2.5 Flash**, it evaluates the claim against the search context (or its own knowledge base if web search is blocked) to classify the claim as:
+- Automated Extraction: Reads uploaded PDFs and intelligently identifies 3 to 5 distinct, verifiable factual claims (statistics, dates, financial figures).
+- Web Cross-Referencing: Uses DuckDuckGo to search the live web for context regarding each extracted claim.
+- Smart Verification: Powered by **Google Gemini 2.5 Flash**, it evaluates the claim against the search context (or its own knowledge base if web search is blocked) to classify the claim as:
   - 🟢 Verified: Matches the data.
   - 🟡 Inaccurate: Outdated stats or slightly wrong figures.
   - 🔴 False: No evidence found or directly contradicted.
