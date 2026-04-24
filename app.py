@@ -90,14 +90,12 @@ def search_web(claim):
 
 def verify_claim(claim, context):
     prompt = f"""
-    You are a Fact-Checking Agent. 
+    You are a Fact-Checking Agent. Evaluate the following claim based ONLY on the provided web search context.
     
     Claim: "{claim}"
-    Web Context: {context}
     
-    INSTRUCTIONS:
-    1. Try to evaluate the claim using the provided Web Context.
-    2. FALLBACK: If the Web Context says 'returned no results' or is empty, you MUST use your own internal knowledge and historical training data to fact-check the claim.
+    Web Context:
+    {context}
     
     Classify the claim into exactly one of these categories:
     1. Verified (matches data)
@@ -105,18 +103,8 @@ def verify_claim(claim, context):
     3. False (no evidence found or directly contradicted)
     
     Return ONLY a valid JSON object with two keys: "status" and "reason".
-    Example: {{"status": "Inaccurate", "reason": "The real stat is actually 30%, not 50%."}}
+    Example: {{"status": "Inaccurate", "reason": "The web shows the stat is actually 30%, not 50%."}}
     """
-    
-    raw_response = call_gemini(prompt)
-    if not raw_response: 
-        return {"status": "Error", "reason": "API Failure."}
-        
-    try:
-        cleaned_response = raw_response.replace('```json', '').replace('```', '').strip()
-        return json.loads(cleaned_response)
-    except Exception as e:
-        return {"status": "Error", "reason": "Could not process the verification."}
     
     raw_response = call_gemini(prompt)
     if not raw_response: 
